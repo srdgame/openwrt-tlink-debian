@@ -15,14 +15,10 @@ jobs:
       options: --device=/dev/kvm
     steps:
       - uses: actions/checkout@v6
-      - run: |
-          mkdir -p system/local-kernel
-          rm linux-image*dbg*deb
-          cp -v linux-image*_*.deb system/local-kernel
       - run: >
           debos --fakemachine-backend=kvm
           --print-recipe
-          -t image:openwrt-one-debian-$(date +%Y%m%d%H%M%S).img
+          -t image:openwrt-tlink-debian-$(date +%Y%m%d%H%M%S).tgz
           system/system.yaml
       - name: recovery image
         uses: actions/upload-artifact@v6
