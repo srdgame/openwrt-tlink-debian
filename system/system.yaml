@@ -1,7 +1,4 @@
 {{ $suite := or .suite "trixie" }}
-# kernel should be "local" or "debian", default to local for now as the debian
-# kernel doesn't work for the one just yet...
-{{ $kernel := or .kernel "local" }}
 {{ $cmdline := or .cmdline "fw_devlink=permissive clk_ignore_unused" }}
 {{ $image := or .image "openwrt.img" }}
 
@@ -47,33 +44,6 @@ actions:
       - openssh-server
       - iproute2
       - initramfs-tools
-
-{{ if eq $kernel "local" }}
-  - action: overlay
-    description: Put in local debian kernel
-    source: local-kernel
-    destination: /kernel
-
-  - action: run
-    chroot: true
-    command: |
-      apt -y --no-install-recommends install /kernel/*.deb
-      rm -rf /kernel
-
-  - action: run
-    description: Switch to upstream wireless regulatory db
-    chroot: true
-    command: |
-      update-alternatives --set regulatory.db /lib/firmware/regulatory.db-upstream
-
-{{ else if eq $kernel  "debian" }}
-  - action: apt
-    description: Install kernel
-    packages:
-      - linux-image-arm64/trixie-backports
-{{ else }}
-   {{ fail "Kernel not set to a valid value" }}
-{{ end }}
 
   - action: overlay
     description: Configure networking
