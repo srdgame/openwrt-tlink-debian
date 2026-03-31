@@ -24,7 +24,7 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: system
-          path: "*.img*"
+          path: "*.tgz*"
   publish:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
