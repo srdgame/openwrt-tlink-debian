@@ -18,13 +18,13 @@ jobs:
       - run: >
           debos --fakemachine-backend=kvm
           --print-recipe
-          -t image:openwrt-tlink-debian-$(date +%Y%m%d%H%M%S).tgz
+          -t image:openwrt-tlink-debian-$(date +%Y%m%d%H%M%S).img
           system/system.yaml
       - name: recovery image
         uses: actions/upload-artifact@v6
         with:
           name: system
-          path: "*.tgz*"
+          path: "*.img*"
   publish:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
@@ -48,4 +48,4 @@ jobs:
           --prerelease
           --generate-notes
           --notes-file .github/workflows/dist-notes.md
-          --target $GITHUB_SHA *.bin *.ubi *.zst *.bmap *.tgz
+          --target $GITHUB_SHA *.bin *.ubi *.zst *.bmap

@@ -46,6 +46,16 @@ actions:
       - initramfs-tools
 
   - action: overlay
+    description: Put in local openwrt kernel
+    source: overlays/kernel
+    destination: /kernel
+
+  - action: overlay
+    description: Put in local openwrt kernel modules
+    source: overlays/lib/modules
+    destination: /lib/modules
+
+  - action: overlay
     description: Configure networking
     source: overlays/network
 
@@ -64,29 +74,32 @@ actions:
 
   - action: image-partition
     imagename: {{ $image }}
-    partitiontype: gpt
-    imagesize: 3G
+    partitiontype: msdos
+    imagesize: 1G
     mountpoints:
       - mountpoint: /
         partition: root
         options:
           - x-systemd.growfs
+      - mountpoint: /kernel
+        partition: kernel
+        options: [ x-systemd.automount ]
     partitions:
+      - name: kernel
+        partlabel: kernel
+        fs: ext4
+        start: 32MiB
+        end: 62MiB
       - name: root
         partlabel: root
         # root arm64
         parttype: b921b045-1df0-41c3-af44-4c6f280d3fae
         fs: ext4
-        start: 1MiB
+        start: 64MiB
         end: 100%
 
   - action: filesystem-deploy
     append-kernel-cmdline: "{{ $cmdline }}"
-
-  - action: apt
-    description: Install u-boot-menu
-    packages:
-      - u-boot-menu
 
 # This needs to run last as apt gets unhappy without machine-id
   - action: run
