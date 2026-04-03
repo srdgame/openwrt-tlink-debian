@@ -48,4 +48,4 @@ jobs:
           --prerelease
           --generate-notes
           --notes-file .github/workflows/dist-notes.md
-          --target $GITHUB_SHA *.bin *.ubi *.zst *.bmap
+          --target $GITHUB_SHA *.bin *.ubi *.zst *.bmap *.tgz
