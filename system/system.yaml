@@ -87,14 +87,14 @@ actions:
     partitions:
       - name: kernel
         # partlabel: kernel
-        parttype: 0FC63DAF-8483-4772-8E79-3D69D8477DE4
+        parttype: 83
         fs: ext4
         start: 32MiB
         end: 62MiB
       - name: root
         # partlabel: root
         # root arm64
-        parttype: b921b045-1df0-41c3-af44-4c6f280d3fae
+        parttype: 83
         fs: ext4
         start: 64MiB
         end: 100%
