@@ -86,12 +86,12 @@ actions:
         options: [ x-systemd.automount ]
     partitions:
       - name: kernel
-        partlabel: kernel
+        # partlabel: kernel
         fs: ext4
         start: 32MiB
         end: 62MiB
       - name: root
-        partlabel: root
+        # partlabel: root
         # root arm64
         parttype: b921b045-1df0-41c3-af44-4c6f280d3fae
         fs: ext4
